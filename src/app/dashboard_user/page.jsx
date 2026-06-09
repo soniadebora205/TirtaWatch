@@ -244,14 +244,6 @@ export default function DashboardUser() {
                 ))}
               </div>
             )}
-
-            {reports.length > 0 && (
-              <div className="mt-10 flex justify-center">
-                <button className="inline-flex h-[50px] items-center justify-center rounded-2xl bg-sky-500 px-7 text-sm font-semibold text-white shadow-soft transition hover:bg-sky-600">
-                  Lihat Selengkapnya
-                </button>
-              </div>
-            )}
           </div>
         </section>
       </main>
