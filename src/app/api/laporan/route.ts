@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 // FIX: Tambahkan tipe ": Request" pada parameter request
 export async function GET(request: Request) {
   try {
-    const supabase = createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
 
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
