@@ -1,13 +1,9 @@
+// Buat di page Peta Laporan, untuk di "Laporan yang Sudah Selesai", biar gambarnya bisa tampilkan before after
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
 
-export default function ImageComparisonSlider({
-  beforeImage,
-  afterImage,
-  beforeLabel = "Sebelum",
-  afterLabel = "Sesudah",
-}) {
+export default function ImageComparisonSlider({beforeImage, afterImage, beforeLabel = "Sebelum", afterLabel = "Sesudah",}) {
   const containerRef = useRef(null);
   const [sliderPosition, setSliderPosition] = useState(50);
   const isDraggingRef = useRef(false);

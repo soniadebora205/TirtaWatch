@@ -15,7 +15,6 @@ const LandingMap = dynamic(() => import("@/components/LandingMap"), {
   ssr: false,
 });
 
-
 function AnimatedCounter({ target, duration = 2000 }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -67,56 +66,6 @@ function DashboardMapCard({ points }) {
   );
 }
 
-
-// function formatDate(dateString) {
-//   if (!dateString) return "-";
-//   const date = new Date(dateString);
-//   return (
-//     date.toLocaleDateString("id-ID", {
-//       day: "numeric",
-//       month: "long",
-//       year: "numeric",
-//       hour: "2-digit",
-//       minute: "2-digit",
-//     }) + " WIB"
-//   );
-// }
-
-// function generateTimeline(report) {
-//   const status = (report.status || "baru").toLowerCase();
-//   const isProses = status === "proses" || status === "selesai";
-//   const isSelesai = status === "selesai";
-
-//   return [
-//     {
-//       step: "Dilaporkan oleh Anda",
-//       time: formatDate(report.created_at),
-//       color: "bg-sky-400",
-//       active: true,
-//     },
-//     {
-//       step: "Diverifikasi & Diproses",
-//       time: isProses ? formatDate(report.updated_at) : "Menunggu verifikasi...",
-//       color: isProses ? "bg-sky-400" : "bg-slate-300",
-//       active: isProses,
-//     },
-//     {
-//       step: "Petugas Menuju Lokasi",
-//       time: isProses ? "Sedang ditangani" : "-",
-//       color: isProses ? "bg-sky-400" : "bg-slate-300",
-//       active: isProses,
-//     },
-//     {
-//       step: "Selesai Diperbaiki",
-//       time: isSelesai
-//         ? formatDate(report.finished_at || report.updated_at)
-//         : "-",
-//       color: isSelesai ? "bg-green-500" : "bg-slate-300",
-//       active: isSelesai,
-//     },
-//   ];
-// }
-
 export default function DashboardUser() {
   const { user } = useAuth();
   const userName = user?.name || "Warga";
@@ -134,6 +83,7 @@ export default function DashboardUser() {
         "Gagal mendapatkan ID pengguna. Pastikan Anda sudah login.",
         user,
       );
+      setLoading(false);
       return;
     }
 
@@ -141,22 +91,21 @@ export default function DashboardUser() {
       try {
         setLoading(true);
 
-        const response = await fetch(`/api/laporan?userId=${user.id}`);
+        const { data: fetchedReports, error } = await supabaseClient
+          .from("Laporan")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
 
-        if (!response.ok) throw new Error("Terjadi masalah pada server API");
+        if (error) throw new Error(error.message);
 
-        const data = await response.json();
-        console.log("CEK DATA DARI API:", data);
-
-        if (data.success) {
-          const fetchedReports = data.reports;
-
+        if (fetchedReports) {
           let proses = 0;
           let selesai = 0;
           const points = [];
 
           fetchedReports.forEach((r) => {
-            const status = (r.status || "").toLowerCase();
+            const status = (r.status || "baru").toLowerCase();
             if (status === "proses") proses++;
             if (status === "selesai") selesai++;
 
@@ -254,6 +203,7 @@ export default function DashboardUser() {
             <DashboardMapCard points={mapPoints} />
           </div>
         </section>
+
         <section className="px-5 py-16 lg:px-8 bg-white">
           <div className="mx-auto max-w-5xl">
             <h2 className="text-2xl font-bold text-ink sm:text-3xl">
@@ -297,7 +247,7 @@ export default function DashboardUser() {
 
             {reports.length > 0 && (
               <div className="mt-10 flex justify-center">
-                <button className="rounded-full bg-sky-500 px-8 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-sky-600">
+                <button className="inline-flex h-[50px] items-center justify-center rounded-2xl bg-sky-500 px-7 text-sm font-semibold text-white shadow-soft transition hover:bg-sky-600">
                   Lihat Selengkapnya
                 </button>
               </div>

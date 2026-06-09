@@ -1,5 +1,4 @@
-// COMPONENT: StatusBadge — pil status warna-warni.
-// Pakai key status ("baru" | "proses" | "selesai") dari lib/data.js.
+// StatusBadge — pil status warna-warni.
 import { statusMeta } from "@/lib/data";
 
 const styles = {
@@ -10,12 +9,20 @@ const styles = {
 };
 
 export default function StatusBadge({ status, size = "sm" }) {
-  const meta = statusMeta[status] || statusMeta.baru;
+  const cleanStatus = (status || "baru").toLowerCase();
+
+  const meta = statusMeta[cleanStatus] || 
+               statusMeta[status] || 
+               statusMeta.baru || 
+               { label: status, badge: "sky", dot: "#0ea5e9" };
+
   const pad = size === "lg" ? "px-4 py-2 text-sm" : "px-3 py-1.5 text-xs";
+  
   return (
-    <span className={`inline-flex items-center gap-2 rounded-full font-semibold ${pad} ${styles[meta.badge]}`}>
-      <span className="w-2 h-2 rounded-full" style={{ background: meta.dot }} />
+    <span className={`inline-flex items-center gap-2 rounded-full font-semibold ${pad} ${styles[meta.badge] || styles.sky}`}>
+      <span className="w-2 h-2 rounded-full" style={{ background: meta.dot || "#0ea5e9" }} />
       {meta.label}
     </span>
   );
 }
+

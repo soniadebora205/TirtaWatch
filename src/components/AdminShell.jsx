@@ -1,6 +1,7 @@
+// kerangka panel admin (sidebar + topbar + konten)
+
 "use client";
-// COMPONENT: AdminShell — kerangka panel admin (sidebar + topbar + konten).
-// Halaman admin cukup membungkus kontennya: <AdminShell title="...">...</AdminShell>
+
 import { useState } from "react";
 import AdminSidebar from "./AdminSidebar";
 import { IconMenu, IconBell, IconSearch } from "./Icons";

@@ -1,5 +1,7 @@
+// Buat sidebar halaman admin
+
 "use client";
-// COMPONENT: AdminSidebar — navigasi panel instansi.
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
@@ -19,7 +21,7 @@ export default function AdminSidebar({ open }) {
   const active = (href) => (href === "/admin" ? pathname === "/admin" : pathname.startsWith(href));
 
   return (
-    <aside className={`w-[260px] shrink-0 bg-navy-deep text-white min-h-screen p-5 flex flex-col fixed lg:static inset-y-0 left-0 z-50 transition-transform ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+    <aside className={`w-[260px] shrink-0 bg-sky-800 text-white min-h-screen p-5 flex flex-col fixed lg:static inset-y-0 left-0 z-50 transition-transform ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
       <Link href="/admin" className="px-2 py-2"><Logo size={26} wordColor="#fff" /></Link>
       <nav className="mt-6 space-y-1 text-sm flex-1">
         {items.map((it) => (
@@ -36,8 +38,8 @@ export default function AdminSidebar({ open }) {
       </nav>
       <div className="border-t border-white/10 pt-4">
         <div className="flex items-center gap-3 px-2">
-          <div className="w-9 h-9 rounded-full bg-sky-500 grid place-items-center font-bold text-sm">PD</div>
-          <div className="text-xs"><div className="font-semibold">Admin PDAM</div><div className="text-slate-400">Bandung</div></div>
+          <div className="w-9 h-9 rounded-full bg-sky-600 grid place-items-center font-bold text-sm">PD</div>
+          <div className="text-xs"><div className="font-semibold">Admin PDAM</div><div className="text-sky-200">Bandung</div></div>
         </div>
         <Link href="/admin/login" className="mt-3 flex items-center gap-2 px-2 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5">
           <IconLogout className="w-4 h-4" />Keluar

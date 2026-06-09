@@ -74,9 +74,9 @@ export default function PetaClient({ reports = [], stats }) {
             {user ? (
               <Link
                 href="/lapor"
-                className="mt-8 inline-flex h-[51px] w-[275px] items-center justify-center rounded-2xl bg-sky-500 text-xl font-semibold text-white shadow-glow transition hover:bg-sky-600"
+                className="mt-8 inline-flex h-[51px] w-[275px] items-center justify-center rounded-2xl bg-[#224B5F] text-xl font-semibold text-white shadow-md transition hover:brightness-110"
               >
-                Laporkan Masalah Baru
+                Laporkan Sekarang
               </Link>
             ) : (
               <Link
@@ -129,7 +129,7 @@ export default function PetaClient({ reports = [], stats }) {
 
         <section className="px-5 py-16 lg:px-8 bg-sky-50/40">
           <div className="mx-auto max-w-7xl">
-            <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2">
               <div className="rounded-4xl border border-line bg-white p-5 shadow-card">
                 <div className="mb-4 flex flex-wrap gap-2">
                   {FILTERS.map((filter) => (
@@ -148,7 +148,7 @@ export default function PetaClient({ reports = [], stats }) {
                   ))}
                 </div>
 
-                <div className="h-[520px] overflow-hidden rounded-3xl">
+                <div className="h-[560px] overflow-hidden rounded-3xl">
                   <LeafletMap
                     reports={filteredReports}
                     onMarkerClick={setSelectedReport}

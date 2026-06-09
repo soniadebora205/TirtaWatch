@@ -1,5 +1,6 @@
+//Counter buat angka menghitung naik saat terlihat.
 "use client";
-// COMPONENT: Counter — angka menghitung naik saat terlihat.
+
 import { useEffect, useRef, useState } from "react";
 
 export default function Counter({ target = 0, suffix = "" }) {

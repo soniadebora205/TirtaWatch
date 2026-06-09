@@ -48,7 +48,7 @@ export function mapDbReport(row, index = 0) {
 export async function getReports(options = {}) {
   const { limit } = options;
 
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   let query = supabase
     .from("Laporan")
@@ -70,7 +70,7 @@ export async function getReports(options = {}) {
 }
 
 export async function getReportByTicket(ticketCode) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("Laporan")

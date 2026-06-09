@@ -1,5 +1,6 @@
+// Komponen Reveal untuk efek animasi saat elemen muncul di viewport
 "use client";
-// COMPONENT: Reveal — animasi muncul saat elemen masuk layar.
+
 import { useEffect, useRef, useState } from "react";
 
 export default function Reveal({ children, delay = 0, className = "" }) {

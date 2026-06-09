@@ -20,7 +20,6 @@ export async function GET(request: Request) {
       .order("created_at", { ascending: false }); 
 
     if (userId) {
-      // FIX: Gunakan 'user_id' (sesuai penamaan kolom relasi di postgres)
       query = query.eq("user_id", userId);
     }
 

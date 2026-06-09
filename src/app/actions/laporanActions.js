@@ -10,15 +10,13 @@ function makeTicketCode() {
 }
 
 export async function getPresignedUrl(fileName) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
-  // Buat nama file unik
   const fileExt = fileName.split(".").pop();
   const uniquePath = `public/${Date.now()}-${randomUUID()}.${fileExt}`;
 
-  // Minta URL khusus ke Supabase yang berlaku sementara untuk upload
   const { data, error } = await supabase.storage
-    .from("laporan-images") // Ganti dengan nama bucket Anda
+    .from("laporan-images")
     .createSignedUploadUrl(uniquePath);
 
   if (error) {
@@ -27,17 +25,16 @@ export async function getPresignedUrl(fileName) {
 
   return {
     signedUrl: data.signedUrl,
-    filePath: data.path, // Alamat spesifik gambar di dalam bucket
+    filePath: data.path,
   };
 }
 
-// ==========================================
-// 2. FUNGSI UNTUK MENYIMPAN DATA LAPORAN
-// ==========================================
 export async function createLaporan(prevState, formData) {
-  const supabase = createSupabaseServerClient();
-  
-  // 1. Ambil data user yang sedang login dari sesi server Supabase
+  const supabase = await createSupabaseServerClient();
+
+  // ✅ Ini sudah benar — akan berfungsi setelah supabaseServer.js diperbaiki
+  // createSupabaseServerClient() yang baru sudah bisa baca cookies sesi,
+  // sehingga auth.getUser() sekarang akan mengembalikan user yang sedang login
   const { data: { user } } = await supabase.auth.getUser();
 
   const imageUrl = String(formData.get("before_image_url") || "").trim();
@@ -59,7 +56,6 @@ export async function createLaporan(prevState, formData) {
   const ticketCode = makeTicketCode();
   const title = `${CATEGORIES[categoryKey].label} di ${location}`;
 
-  // 2. Masukkan user.id ke dalam payload insert database
   const { error } = await supabase.from("Laporan").insert([
     {
       id: randomUUID(),
@@ -74,7 +70,9 @@ export async function createLaporan(prevState, formData) {
       status: "baru",
       support_count: 0,
       before_image_url: imageUrl || "/foto-dummy-1.jpg",
-      user_id: user?.id || null, // ✨ SEKARANG TERIKAT KE USER ID YANG LOGIN
+      user_id: user?.id || null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
   ]);
 
@@ -102,19 +100,14 @@ export async function updateReportStatus(prevState, formData) {
   const technicianName = String(formData.get("technician_name") || "").trim();
   const estimatedFinish = String(formData.get("estimated_finish") || "").trim();
   const internalNote = String(formData.get("internal_note") || "").trim();
+  const afterImageUrl = String(formData.get("after_image_url") || "").trim();
 
   if (!ticketCode) {
-    return {
-      success: false,
-      message: "Nomor tiket tidak ditemukan.",
-    };
+    return { success: false, message: "Nomor tiket tidak ditemukan." };
   }
 
   if (!["baru", "proses", "selesai"].includes(status)) {
-    return {
-      success: false,
-      message: "Status tidak valid.",
-    };
+    return { success: false, message: "Status tidak valid." };
   }
 
   const payload = {
@@ -127,21 +120,38 @@ export async function updateReportStatus(prevState, formData) {
 
   if (status === "selesai") {
     payload.resolved_at = new Date().toISOString();
-    payload.after_image_url = "/sesudah-1.jpg";
+    payload.after_image_url = afterImageUrl || "/sesudah-1.jpg";
   }
 
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
-  const { error } = await supabase
+  // 1. Update status di tabel Laporan, sekalian ambil id-nya untuk StatusHistory
+  const { data: updatedLaporan, error } = await supabase
     .from("Laporan")
     .update(payload)
-    .eq("ticket_code", ticketCode);
+    .eq("ticket_code", ticketCode)
+    .select("id")
+    .single();
 
   if (error) {
-    return {
-      success: false,
-      message: `Gagal memperbarui status: ${error.message}`,
-    };
+    return { success: false, message: `Gagal memperbarui status: ${error.message}` };
+  }
+
+  // 2. Catat riwayat perubahan ke StatusHistory
+  const { error: historyError } = await supabase
+    .from("StatusHistory")
+    .insert([{
+      id: randomUUID(),
+      report_id: updatedLaporan.id,
+      status,
+      changed_by: technicianName || "Admin",
+      note: internalNote || null,
+      created_at: new Date().toISOString(),
+    }]);
+
+  if (historyError) {
+    // Tidak gagalkan seluruh request — cukup log saja
+    console.warn("Gagal mencatat StatusHistory:", historyError.message);
   }
 
   revalidatePath("/peta");
@@ -152,25 +162,18 @@ export async function updateReportStatus(prevState, formData) {
   revalidatePath(`/admin/laporan/${ticketCode}`);
   revalidatePath(`/laporan/${ticketCode}`);
 
-  return {
-    success: true,
-    message: "Status laporan berhasil diperbarui.",
-  };
+  return { success: true, message: "Status laporan berhasil diperbarui." };
 }
 
 export async function supportReport(ticketCode) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase.rpc("increment_support_count", {
     p_ticket_code: ticketCode,
   });
 
   if (error) {
-    return {
-      success: false,
-      count: 0,
-      message: error.message,
-    };
+    return { success: false, count: 0, message: error.message };
   }
 
   revalidatePath("/peta");
@@ -178,9 +181,5 @@ export async function supportReport(ticketCode) {
   revalidatePath("/admin");
   revalidatePath("/admin/laporan");
 
-  return {
-    success: true,
-    count: data,
-    message: "Dukungan berhasil ditambahkan.",
-  };
+  return { success: true, count: data, message: "Dukungan berhasil ditambahkan." };
 }

@@ -3,8 +3,6 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ReportMap from "@/components/ReportMap";
-// import { mapPoints } from "@/lib/data";
 import { IconChevron } from "@/components/Icons";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
