@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const maxDuration = 60;
 
-// Fallback chain: coba dari model terbaru ke yang paling stabil
+
 const MODEL_FALLBACKS = [
   "gemini-2.5-flash",
   "gemini-2.0-flash",
@@ -11,7 +11,14 @@ const MODEL_FALLBACKS = [
 ];
 
 const PROMPT =
-  "Is there a problem with water infrastructure, leaking pipes, flood, clogged drains, dirty or contaminated water, illegal waste dumping, or trash in this image? Answer ONLY with YES or NO.";
+  "You are a strict image validator for a water infrastructure reporting app. " +
+  "Does this image CLEARLY show one of these specific problems: " +
+  "burst/leaking water pipes, severely clogged drainage causing flooding, " +
+  "visibly contaminated water flowing from pipes or drains, " +
+  "or illegal chemical/industrial waste dumping into water sources? " +
+  "Do NOT answer YES for: general outdoor scenes, food, people, animals, " +
+  "regular trash, or anything not directly related to water infrastructure damage. " +
+  "Answer ONLY with YES or NO, nothing else.";
 
 async function tryAnalyzeWithModel(
   genAI: GoogleGenerativeAI,
@@ -48,22 +55,21 @@ export async function POST(req: Request) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
 
-    // Coba satu per satu model dari fallback chain
+
     for (const modelName of MODEL_FALLBACKS) {
       try {
         console.log(`[AI] Mencoba model: ${modelName}`);
         const responseText = await tryAnalyzeWithModel(genAI, modelName, imageBase64);
         console.log(`[AI] Respons dari ${modelName}:`, responseText);
 
-        // Model berhasil menjawab — gunakan hasilnya (blokir atau loloskan)
-        if (responseText.includes("YES")) {
+        if (responseText === "YES") {
           return NextResponse.json({ isValid: true, aiVerified: true });
         } else {
           return NextResponse.json(
             {
               isValid: false,
               message:
-                "Foto ditolak. AI tidak mendeteksi adanya kerusakan infrastruktur air atau sanitasi pada foto tersebut.",
+                "Foto ditolak. AI tidak mendeteksi adanya kerusakan infrastruktur air atau masalah sanitasi pada foto tersebut.",
             },
             { status: 400 }
           );
@@ -71,23 +77,16 @@ export async function POST(req: Request) {
       } catch (err: any) {
         const status = err?.status ?? err?.statusCode;
 
-        // Hanya lanjut ke fallback jika error-nya dari SISI SERVER Google
-        // (503 = overload, 429 = rate limit, 500/502 = server error)
-        // Jika error lain (misal: API key salah), langsung stop
         if ([503, 429, 500, 502, 404].includes(status)) {
           console.warn(
             `[AI] Model ${modelName} tidak tersedia (${status}), mencoba fallback berikutnya...`
           );
-          continue; // lanjut ke model berikutnya
+          continue; 
         }
-
-        // Error tak terduga — lempar ke catch di bawah
         throw err;
       }
     }
 
-    // Semua model gagal karena server Google overload — BUKAN karena gambarnya salah
-    // Loloskan dengan flag aiVerified: false agar admin bisa review manual
     console.warn("[AI] Semua model Gemini tidak tersedia. Foto diloloskan tanpa verifikasi AI.");
     return NextResponse.json({
       isValid: true,
