@@ -37,7 +37,7 @@ TirtaWatch merupakan sebuah platform *crowdsourcing* pelaporan masalah air bersi
 
 Ketersediaan air bersih yang merata di Indonesia masih menghadapi tantangan besar, salah satunya tingginya tingkat kebocoran air atau *Non-Revenue Water* (NRW) yang mencapai 30–40% di sepanjang jalur distribusi, serta maraknya ancaman pencemaran limbah ilegal. Permasalahan ini diperparah oleh sistem pelaporan konvensional yang cenderung birokratis, lambat, dan tidak akurat dalam mendeteksi lokasi kejadian secara presisi. Ketiadaan mekanisme yang transparan ini terus menurunkan tingkat kepercayaan publik terhadap penanganan infrastruktur air dan sanitasi oleh pihak berwenang.
 
-Berangkat dari kondisi tersebut, TirtaWatch hadir sebagai solusi teknologi yang menyediakan mekanisme pelaporan cepat, mudah, dan terstandarisasi guna menjembatani kesenjangan antara laporan warga dengan kemampuan respons instansi terkait. Pengembangan platform ini diimplementasikan menggunakan metodologi *Minimum Viable Product* (MVP) — pendekatan iteratif yang berfokus pada perilisan fitur-fitur inti lebih awal, sehingga produk dapat segera divalidasi oleh pengguna nyata dan terus dikembangkan berdasarkan umpan balik (*feedback*) di lapangan.
+Berangkat dari kondisi tersebut, TirtaWatch hadir sebagai solusi teknologi yang menyediakan mekanisme pelaporan cepat, mudah, dan terstandarisasi guna menjembatani kesenjangan antara laporan warga dengan kemampuan respons instansi terkait. Pengembangan platform ini diimplementasikan menggunakan metodologi *Minimum Viable Product* (MVP) yaitu sebuah pendekatan iteratif yang berfokus pada perilisan fitur-fitur inti lebih awal, sehingga produk dapat segera divalidasi oleh pengguna nyata dan terus dikembangkan berdasarkan *feedback* di lapangan.
 
 Pada versi MVP tahap awal ini, TirtaWatch dilengkapi dengan fungsionalitas utama berikut:
 - _Landing page_
@@ -87,7 +87,7 @@ Taufiq melakukan audit menyeluruh terhadap seluruh komponen UI dan logika kode y
 
 <img width="594" height="1011" alt="Flowchar_TirtaWatch_Transparan" src="https://github.com/user-attachments/assets/86815f8c-ffa8-4130-99aa-3f65f5678892" />
 
-Flowchart di atas menunjukkan alur pelaporan masalah air bersih dan sanitasi oleh pengguna. Proses dimulai ketika pengguna menekan tombol "Laporkan Sekarang" pada hero section (atau melalui navigasi "Form Laporan"). Tahap pertama: unggah foto bukti kerusakan yang divalidasi sistem. Jika belum lanjut, pengguna tetap di formulir tahap pertama. Setelah foto tervalidasi dan tombol lanjut ditekan, pengguna melengkapi detail laporan pada formulir tahap kedua (kategori, deskripsi, koordinat lokasi via GPS). Tahap ketiga: tinjauan ulang seluruh data sebelum laporan resmi dikirim ke sistem dan muncul di "Daftar Laporanku" pada dashboard pengguna.
+Flowchart di atas menunjukkan alur pelaporan masalah air bersih dan sanitasi oleh pengguna. Proses dimulai ketika pengguna menekan tombol "Laporkan Sekarang" pada hero section (atau melalui navigasi "Form Laporan"). Tahap pertama: unggah foto bukti kerusakan yang divalidasi sistem. Jika belum lanjut, pengguna tetap di formulir tahap pertama. Tahap kedua: Setelah foto tervalidasi dan tombol lanjut ditekan, pengguna melengkapi detail laporan pada formulir tahap kedua (kategori, deskripsi, koordinat lokasi via GPS). Tahap ketiga: tinjauan ulang seluruh data sebelum laporan resmi dikirim ke sistem dan muncul di "Daftar Laporanku" pada dashboard pengguna.
 
 
 **Supabase ERD**
@@ -120,7 +120,7 @@ Media informasional yang memperkenalkan fungsi platform: 3 card permasalahan yan
 ### b. Halaman Autentikasi (Login & Register)
 Gerbang keamanan dengan latar bertema air untuk konsistensi visual. Register membutuhkan nama, email, dan password. Login menyediakan pengisian manual atau opsi "Lanjut dengan Google", lengkap dengan fitur pemulihan kata sandi.
 
-> ⚠️ **Catatan:** Autentikasi via Google saat ini dinonaktifkan karena keterbatasan konfigurasi Supabase — mohon disinkronkan dengan bagian Kesimpulan & Saran Pengembangan di bawah, karena teks asli menyebutkan status yang berbeda-beda di tiap bagian.
+> ⚠️ **Catatan:** Autentikasi via Google saat ini dinonaktifkan karena keterbatasan konfigurasi Supabase
 
 <img width="700" alt="Halaman Register" src="https://github.com/user-attachments/assets/03196909-3363-4812-b1b1-9e8c493ffea8" />
 <img width="700" alt="Halaman Login" src="https://github.com/user-attachments/assets/58e9c2c8-1dc7-4566-8528-52d3e389843e" />
@@ -135,6 +135,8 @@ Bersifat transparan ke publik: peta interaktif, total laporan (selesai/baru/dipr
 ### d. Halaman Dashboard & Profil
 Ruang kerja personal bagi pengguna yang sudah login. Halaman Profil mengelola informasi akun; Dashboard menyajikan metrik pelacakan pribadi (status baru/diproses/selesai), teknisi penanggung jawab, estimasi selesai, dan opsi share ke media sosial.
 
+> ⚠️ **Catatan:** Fitur beri dukungan atau melihat jumlah dukungan belum dikembangkan 
+
 <img width="700" alt="Halaman Profil" src="https://github.com/user-attachments/assets/179c2fb4-fe18-4886-946e-7eb99bb78890" />
 <img width="700" alt="Dashboard - Hero Section" src="https://github.com/user-attachments/assets/e6b85d04-45a1-49e4-8de0-ba83b55626e5" />
 <img width="700" alt="Dashboard - Daftar Laporan" src="https://github.com/user-attachments/assets/f86248f5-f938-4b2c-aeb1-7d0628607845" />
@@ -146,15 +148,16 @@ Pengisian bertahap dalam tiga langkah. Tahap 1: unggah foto bukti, dianalisis ot
 <img width="700" alt="Form Laporan - Tahap 2" src="https://github.com/user-attachments/assets/7b729030-90e7-4cbb-83de-1f407472e1af" />
 <img width="700" alt="Form Laporan - Verifikasi" src="https://github.com/user-attachments/assets/c005d5b8-6757-4303-83ea-2c9c427b3b6e" />
 
+
 ### f. Halaman Dashboard Petugas dan Admin
 Hanya dapat diakses pengguna dengan email dan kata sandi terdaftar. Menyajikan statistik laporan terkini serta peta interaktif berbasis Leaflet.js dengan penanda lokasi di setiap area bermasalah.
 
-**Akun Demo:**
+**Akun Demo UNTUK UJI COBA:**
 ```
 Email    : admin@tirtawatch.com
 Password : AdminTirta123!
 ```
-> 🔒 Disarankan mengganti/menonaktifkan kredensial demo ini sebelum repository di-publish secara luas.
+> 🔒 Kredensial demo diganti apabila di-publish secara luas.
 
 <img width="700" alt="Login Petugas & Admin" src="https://github.com/user-attachments/assets/4e8f2cb0-bd4c-40fe-a2cb-5a2e37a3fc83" />
 <img width="700" alt="Dashboard Petugas & Admin - Statistik & Peta" src="https://github.com/user-attachments/assets/43119876-f0a9-4406-964d-b9b0fbdb5021" />
@@ -182,10 +185,10 @@ Menampilkan seluruh laporan pengguna dan berfungsi sebagai pusat pengelolaan sta
 
 Pelaksanaan Magang Studi Independen di PT Vinix Seven Aurum (VINIX7) pada divisi Web Development & UI/UX Design melalui pengerjaan Final Project TirtaWatch menghasilkan platform *crowdsourcing* berbasis web yang menjembatani masyarakat dengan penyedia layanan air bersih dan sanitasi (PDAM dan Dinas Lingkungan Hidup). Kesimpulan yang dapat ditarik:
 
-1. Sistem informasi berbasis web berhasil dirancang dan diimplementasikan dalam bentuk platform TirtaWatch, dengan fitur Peta Laporan interaktif, Live Feed, dan etalase before-after yang memungkinkan masyarakat melaporkan serta memantau masalah infrastruktur air secara cepat dan tepat sasaran berdasarkan lokasi *geotagging*.
+1. Sistem informasi berbasis web berhasil dirancang dan diimplementasikan dalam bentuk _platform_ TirtaWatch, dengan fitur Peta Laporan interaktif, Live Feed, dan etalase _before-after_ yang memungkinkan masyarakat melaporkan serta memantau masalah infrastruktur air secara cepat dan tepat sasaran berdasarkan lokasi *geotagging*.
 2. Sistem autentikasi Login dan Register berhasil diimplementasikan menggunakan NextAuth.js, dengan dua jalur masuk (kredensial dan Google) serta manajemen hak akses yang membedakan pengguna Guest dan pengguna terautentikasi.
-3. Antarmuka pengguna tahap High-Fidelity berhasil dirancang secara informatif dan responsif melalui pendekatan Design Thinking, mulai dari wireframe hingga mockup, yang kemudian diimplementasikan pada seluruh halaman TirtaWatch.
-4. Proses pengembangan sistem dilakukan dengan menerapkan pendekatan Minimum Viable Product (MVP), memanfaatkan stack Next.js, Tailwind CSS, Supabase, NextAuth.js, dan Leaflet.js, sehingga fitur-fitur inti dapat diselesaikan dalam rentang waktu pengerjaan yang terbatas (tiga minggu).
+3. Antarmuka pengguna tahap _High-Fidelity_ berhasil dirancang secara informatif dan responsif melalui pendekatan _Design Thinking_, mulai dari _wireframe_ hingga _mockup_, yang kemudian diimplementasikan pada seluruh halaman TirtaWatch.
+4. Proses pengembangan sistem dilakukan dengan menerapkan pendekatan _Minimum Viable Product_ (MVP), memanfaatkan stack Next.js, Tailwind CSS, Supabase, NextAuth.js, dan Leaflet.js, sehingga fitur-fitur inti diselesaikan dalam rentang waktu pengerjaan yang terbatas (tiga minggu).
 
 Secara keseluruhan, kegiatan Kerja Praktek ini memberikan pengalaman nyata dalam menerapkan ilmu yang diperoleh selama perkuliahan ke dalam proyek berbasis industri, sekaligus melatih kemampuan kerja sama tim, komunikasi, dan manajemen waktu.
 
@@ -194,6 +197,7 @@ Secara keseluruhan, kegiatan Kerja Praktek ini memberikan pengalaman nyata dalam
 ## 🔧 Saran Pengembangan
 
 1. Mengaktifkan kembali fitur Login melalui Google yang saat ini masih dinonaktifkan akibat keterbatasan konfigurasi Supabase.
-2. Menambahkan fitur notifikasi *real-time* bagi pelapor setiap kali status laporannya diperbarui.
-3. Mengintegrasikan data resmi dari PDAM dan Dinas Lingkungan Hidup setempat agar validasi laporan lebih akurat.
-4. Melaksanakan pengujian keamanan (*security testing*) dan *usability* yang lebih menyeluruh sebelum sistem diterapkan pada lingkup pengguna yang lebih luas.
+2. Mengembangkan fitur _upvote_ atau memberi dukungan
+3. Menambahkan fitur notifikasi *real-time* bagi pelapor setiap kali status laporannya diperbarui.
+4. Mengintegrasikan data resmi dari PDAM dan Dinas Lingkungan Hidup setempat agar validasi laporan lebih akurat.
+5. Melaksanakan pengujian keamanan (*security testing*) dan *usability* yang lebih menyeluruh sebelum sistem diterapkan pada lingkup pengguna yang lebih luas.
