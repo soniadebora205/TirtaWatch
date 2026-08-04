@@ -22,8 +22,8 @@ Divisi Web Development & UI/UX Design
 
 | Link | Status |
 |---|---|
-| Live Deployment | *(belum diisi)* |
-| Figma (High-Fidelity, tidak berfokus pada prototyping) | *(belum diisi)* |
+| Live Deployment | *https://tirtawacth.vercel.app/* |
+| Figma (High-Fidelity, tapi tidak berfokus pada prototyping) | *https://www.figma.com/design/JLwfcAYojc5L3uAEuPjHbY/TirtaWatch-High-Fi-WF?node-id=2-13&t=brtoDcVWx2oT9Bib-1* |
 
 ---
 
