@@ -1,11 +1,11 @@
-# TirtaWatch ⛲
+# 🧑🏻‍🔧 TirtaWatch 
 
 **Final Project — VINIX7 (PT Vinix Seven Aurum)**
 Divisi Web Development & UI/UX Design
 
 ---
 
-## 👥 Tim Pengembang — Kelompok 14
+## 👥 Kelompok 14
 
 | Nama | Asal Universitas |
 |---|---|
@@ -23,7 +23,7 @@ Divisi Web Development & UI/UX Design
 | Link | Status |
 |---|---|
 | Live Deployment | *https://tirtawacth.vercel.app/* |
-| Figma (High-Fidelity, tidak berfokus pada prototyping) | *https://www.figma.com/design/JLwfcAYojc5L3uAEuPjHbY/TirtaWatch-High-Fi-WF?node-id=2-13&t=brtoDcVWx2oT9Bib-1* |
+| Figma (High-Fidelity, tapi tidak berfokus pada prototyping) | *https://www.figma.com/design/JLwfcAYojc5L3uAEuPjHbY/TirtaWatch-High-Fi-WF?node-id=2-13&t=brtoDcVWx2oT9Bib-1* |
 
 ---
 
@@ -40,11 +40,11 @@ Ketersediaan air bersih yang merata di Indonesia masih menghadapi tantangan besa
 Berangkat dari kondisi tersebut, TirtaWatch hadir sebagai solusi teknologi yang menyediakan mekanisme pelaporan cepat, mudah, dan terstandarisasi guna menjembatani kesenjangan antara laporan warga dengan kemampuan respons instansi terkait. Pengembangan platform ini diimplementasikan menggunakan metodologi *Minimum Viable Product* (MVP) — pendekatan iteratif yang berfokus pada perilisan fitur-fitur inti lebih awal, sehingga produk dapat segera divalidasi oleh pengguna nyata dan terus dikembangkan berdasarkan umpan balik (*feedback*) di lapangan.
 
 Pada versi MVP tahap awal ini, TirtaWatch dilengkapi dengan fungsionalitas utama berikut:
-- Landing page
-- Sistem login dan register
-- Dashboard pengguna
+- _Landing page_
+- Sistem _login_ dan _register_
+- _Dashboard_ pengguna
 - Formulir pelaporan masalah yang komprehensif
-- Dashboard khusus admin/petugas operasional untuk memantau dan mengelola laporan warga
+- _Dashboard_ khusus admin/petugas operasional untuk memantau dan mengelola laporan warga
 
 ---
 
@@ -85,9 +85,10 @@ Taufiq melakukan audit menyeluruh terhadap seluruh komponen UI dan logika kode y
 
 **Flowchart TirtaWatch**
 
-<img width="380" alt="Flowchart TirtaWatch" src="https://github.com/user-attachments/assets/e80ad943-811e-458f-956f-a5c1824e1e40" />
+<img width="594" height="1011" alt="Flowchar_TirtaWatch_Transparan" src="https://github.com/user-attachments/assets/86815f8c-ffa8-4130-99aa-3f65f5678892" />
 
 Flowchart di atas menunjukkan alur pelaporan masalah air bersih dan sanitasi oleh pengguna. Proses dimulai ketika pengguna menekan tombol "Laporkan Sekarang" pada hero section (atau melalui navigasi "Form Laporan"). Tahap pertama: unggah foto bukti kerusakan yang divalidasi sistem. Jika belum lanjut, pengguna tetap di formulir tahap pertama. Setelah foto tervalidasi dan tombol lanjut ditekan, pengguna melengkapi detail laporan pada formulir tahap kedua (kategori, deskripsi, koordinat lokasi via GPS). Tahap ketiga: tinjauan ulang seluruh data sebelum laporan resmi dikirim ke sistem dan muncul di "Daftar Laporanku" pada dashboard pengguna.
+
 
 **Supabase ERD**
 
